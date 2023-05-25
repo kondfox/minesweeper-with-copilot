@@ -71,6 +71,7 @@ canvas.addEventListener('click', (event) => {
 function startGame() {
   isGameOver = false;
   exploredFields = 0;
+  flagCount = 0;
   isFirstClick = true;
   map = initializeMap(columns, rows);
   exploredMap = initializeExploredMap(columns, rows);
