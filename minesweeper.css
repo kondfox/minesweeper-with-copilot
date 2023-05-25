@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Caveat', sans-serif;
+}
+
+body {
+  background-image: url("assets/wooden_background.png");
+  background-size: contain;
+  background-repeat: repeat-x;
+}
+
+#control-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2vh 0;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.button,
+#counter,
+#timer {
+  border-radius: 15px;
+}
+
+.ui-element {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.text-on-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.number-overlay {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-size: 48pt;
+  font-weight: bold;
+  padding-left: 10pt;
+  letter-spacing: 20pt;
+  color: rgba(0, 0, 0, 0.75);
+  text-shadow: 1px 1px rgba(255, 255, 255, 0.75), -1px -1px #444;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Minesweeper</title>
+  <link href="https://fonts.cdnfonts.com/css/caveat" rel="stylesheet">
+  <link rel="stylesheet" href="minesweeper.css">
+</head>
+<body>
+  <main>
+    <div id="control-panel">
+      <div class="text-on-image">
+        <img id="counter" class="ui-element" src="assets/counter.png" height="80">
+        <span id="mine-count" class="number-overlay">000</span>
+      </div>
+      <img id="action-button" class="button ui-element" src="assets/button-start.png" height="80">
+      <div class="text-on-image">
+        <img id="timer" class="ui-element" src="assets/counter.png" height="80">
+        <span id="time" class="number-overlay">000</span>
+      </div>
+    </div>
+    <canvas id="minesweeperCanvas" class="ui-element" width="800" height="600"></canvas>
+  </main>
+  <img id="hidden" src="assets/hidden.png" style="display: none;">
+  <img id="mine" src="assets/mine.png" style="display: none;">
+  <img id="exploded-mine" src="assets/exploded-mine.png" style="display: none;">
+  <img id="field-0" src="assets/0.png" style="display: none;">
+  <img id="field-1" src="assets/1.png" style="display: none;">
+  <img id="field-2" src="assets/2.png" style="display: none;">
+  <img id="field-3" src="assets/3.png" style="display: none;">
+  <img id="field-4" src="assets/4.png" style="display: none;">
+  <img id="field-5" src="assets/5.png" style="display: none;">
+  <img id="field-6" src="assets/6.png" style="display: none;">
+  <img id="field-7" src="assets/7.png" style="display: none;">
+  <img id="field-8" src="assets/8.png" style="display: none;">
+  <img id="flag" src="assets/flag.png" style="display: none;">
+  <img id="flagged-wrong" src="assets/flagged-wrong.png" style="display: none;">
+  <script src="minesweeper.js"></script>
+</body>
+</html>
