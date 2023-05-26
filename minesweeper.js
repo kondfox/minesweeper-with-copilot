@@ -141,12 +141,12 @@ function onLeftClick(x, y) {
 }
 
 function onRightClick(x, y) {
-  if (isGameOver) return;
+  if (isGameOver && !isGameWon()) return;
   if (!exploredMap[y][x]) {
     flaggedMap[y][x] = !flaggedMap[y][x];
     flagCount += flaggedMap[y][x] ? 1 : -1;
     showRemainingMineCount(mineCount - flagCount);
-  } else {
+  } else if (!isGameOver) {
     let neighbours = getNeighbourIndices(x, y);
     let flaggedNeighbours = countFlaggedFields(neighbours);
     if (flaggedNeighbours !== map[y][x]) return;
