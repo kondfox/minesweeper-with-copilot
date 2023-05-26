@@ -16,7 +16,8 @@ html, body {
 body {
   background-image: url("assets/wooden_background.png");
   background-size: contain;
-  background-repeat: repeat-x;
+  background-repeat: repeat;
+  background-position-y: 18vh;
 }
 
 #control-panel {
