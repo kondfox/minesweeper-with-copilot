@@ -118,6 +118,7 @@ function showSecondsPassed(seconds) {
 }
 
 function convertNumberToThreeDigitString(number) {
+  if (number < 0) return "🤡";
   let numberString = number.toString();
   let digitCount = 3;
   if (numberString.length < digitCount) {
