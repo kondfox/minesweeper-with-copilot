@@ -134,7 +134,8 @@ function onLeftClick(x, y) {
     exploreFields(x, y);
     drawMap();
     checkIfGameWon();
-  } else if (isGameOver && !isGameWon()) {
+  }
+  if (isGameOver && !isGameWon()) {
     endGame();
   }
 }
