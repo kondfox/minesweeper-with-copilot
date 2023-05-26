@@ -35,6 +35,7 @@ let timer;
 let map;
 let exploredMap;
 let flaggedMap;
+let explodedBomb;
 
 startGame();
 
@@ -45,16 +46,21 @@ actionButton.addEventListener('click', () => {
 
 canvas.addEventListener('contextmenu', function(event) {
   event.preventDefault();
-  if (isGameOver) return;
   let x = Math.floor(event.offsetX / imgSize);
   let y = Math.floor(event.offsetY / imgSize);
-  if (!exploredMap[y][x]) {
-    flaggedMap[y][x] = !flaggedMap[y][x];
-    flagCount += flaggedMap[y][x] ? 1 : -1;
-    showRemainingMineCount(mineCount - flagCount);
-    drawMap();
-  }
+  onRightClick(x, y);
 });
+
+function countFlaggedFields(fields) {
+  let count = 0;
+  for (let i = 0; i < fields.length; i++) {
+    let field = fields[i];
+    if (flaggedMap[field.y][field.x]) {
+      count++;
+    }
+  }
+  return count;
+}
 
 canvas.addEventListener('click', (event) => {
   let x = Math.floor(event.offsetX / imgSize);
@@ -65,7 +71,7 @@ canvas.addEventListener('click', (event) => {
     calculateFieldValues(map);
     startTimer();
   }
-  onClickEvent(x, y);
+  onLeftClick(x, y);
 });
 
 function startGame() {
@@ -123,21 +129,44 @@ function convertNumberToThreeDigitString(number) {
   return numberString;
 }
 
-function onClickEvent(x, y) {
+function onLeftClick(x, y) {
   if (!isGameOver && !flaggedMap[y][x]) {
-    if (map[y][x] === 'MINE') {
-      isGameOver = true;
-      showWrongFlags();
-      drawImage(images.explodedMine, px(x), px(y));
-      actionButton.src = 'assets/button-lost.png';
-    } else {
-      exploreFields(x, y);
-      drawMap();
-      if (isGameWon()) {
-        isGameOver = true;
-        actionButton.src = 'assets/button-won.png';
+    exploreFields(x, y);
+    drawMap();
+    checkIfGameWon();
+  } else if (isGameOver && !isGameWon()) {
+    endGame();
+  }
+}
+
+function onRightClick(x, y) {
+  if (isGameOver) return;
+  if (!exploredMap[y][x]) {
+    flaggedMap[y][x] = !flaggedMap[y][x];
+    flagCount += flaggedMap[y][x] ? 1 : -1;
+    showRemainingMineCount(mineCount - flagCount);
+  } else {
+    let neighbours = getNeighbourIndices(x, y);
+    let flaggedNeighbours = countFlaggedFields(neighbours);
+    if (flaggedNeighbours !== map[y][x]) return;
+    for (let i = 0; i < neighbours.length; i++) {
+      let neighbour = neighbours[i];
+      if (!exploredMap[neighbour.y][neighbour.x] && !flaggedMap[neighbour.y][neighbour.x]) {
+        exploreFields(neighbour.x, neighbour.y);
       }
     }
+  }
+  drawMap();
+  if (isGameOver && !isGameWon()) {
+    endGame();
+  }
+  checkIfGameWon();
+}
+
+function checkIfGameWon() {
+  if (isGameWon()) {
+    isGameOver = true;
+    actionButton.src = 'assets/button-won.png';
   }
 }
 
@@ -151,18 +180,11 @@ function showWrongFlags() {
   }
 }
 
-function showAllMines() {
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < columns; x++) {
-        if (map[y][x] === 'MINE') {
-          drawImage(images.MINE, px(x), px(y));
-        }
-    }
-  }
-}
-
 function exploreFields(x, y) {
-  if (!exploredMap[y][x]) {
+  if (map[y][x] === 'MINE') {
+    isGameOver = true;
+    explodedBomb = {x: x, y: y};
+  } else if (!exploredMap[y][x]) {
     exploredMap[y][x] = true;
     exploredFields++;
     if (map[y][x] === 0) {
@@ -172,6 +194,12 @@ function exploreFields(x, y) {
       }
     }
   }
+}
+
+function endGame() {
+  showWrongFlags();
+  drawImage(images.explodedMine, px(explodedBomb.x), px(explodedBomb.y));
+  actionButton.src = 'assets/button-lost.png';
 }
 
 function getNeighbourIndices(x, y) {
