@@ -1,33 +1,16 @@
-const canvas = document.querySelector('#minesweeperCanvas');
-const c = canvas.getContext('2d');
 const columns = 16;
 const rows = 12;
-const imgSize = canvas.clientWidth / columns;
-canvas.width = columns * imgSize;
-canvas.height = rows * imgSize;
 const mineCount = 30;
-const images = {
-  hidden: document.getElementById('hidden'),
-  flagged: document.getElementById('flagged'),
-  flag: document.getElementById('flag'),
-  flaggedWrong: document.getElementById('flagged-wrong'),
-  explodedMine: document.getElementById('exploded-mine'),
-  MINE: document.getElementById('mine'),
-  0: document.getElementById('field-0'),
-  1: document.getElementById('field-1'),
-  2: document.getElementById('field-2'),
-  3: document.getElementById('field-3'),
-  4: document.getElementById('field-4'),
-  5: document.getElementById('field-5'),
-  6: document.getElementById('field-6'),
-  7: document.getElementById('field-7'),
-  8: document.getElementById('field-8'),
-};
-const actionButton = document.querySelector('#action-button');
-const timeHolder = document.querySelector('#time');
-const remainingMineCountHolder = document.querySelector('#mine-count');
 const buttonShadow = "10px 10px 10px rgba(0, 0, 0, 0.5)";
 const clickedButtonShadow = "5px 5px 10px rgba(0, 0, 0, 0.8)";
+
+let canvas;
+let c;
+let imgSize;
+let images;
+let actionButton;
+let timeHolder;
+let remainingMineCountHolder;
 
 let isGameOver = false;
 let isFirstClick = true;
@@ -39,19 +22,37 @@ let exploredMap;
 let flaggedMap;
 let explodedBomb;
 
-startGame();
-
-actionButton.addEventListener('click', () => {
-  actionButton.style.boxShadow = clickedButtonShadow;
-  setTimeout(restartGame, 100);
-});
-
-canvas.addEventListener('contextmenu', function(event) {
-  event.preventDefault();
-  let x = Math.floor(event.offsetX / imgSize);
-  let y = Math.floor(event.offsetY / imgSize);
-  onRightClick(x, y);
-});
+window.onload = () => {
+  canvas = document.querySelector('#minesweeperCanvas');
+  c = canvas.getContext('2d');
+  imgSize = canvas.clientWidth / columns;
+  canvas.width = columns * imgSize;
+  canvas.height = rows * imgSize;
+  images = {
+    hidden: document.getElementById('hidden'),
+    flagged: document.getElementById('flagged'),
+    flag: document.getElementById('flag'),
+    flaggedWrong: document.getElementById('flagged-wrong'),
+    explodedMine: document.getElementById('exploded-mine'),
+    MINE: document.getElementById('mine'),
+    0: document.getElementById('field-0'),
+    1: document.getElementById('field-1'),
+    2: document.getElementById('field-2'),
+    3: document.getElementById('field-3'),
+    4: document.getElementById('field-4'),
+    5: document.getElementById('field-5'),
+    6: document.getElementById('field-6'),
+    7: document.getElementById('field-7'),
+    8: document.getElementById('field-8'),
+  };
+  actionButton = document.querySelector('#action-button');
+  timeHolder = document.querySelector('#time');
+  remainingMineCountHolder = document.querySelector('#mine-count');
+  canvas.addEventListener('click', canvasLeftClicked);
+  canvas.addEventListener('contextmenu', canvasRightClicked);
+  actionButton.addEventListener('click', actionButtonClicked);
+  startGame();
+}
 
 function countFlaggedFields(fields) {
   let count = 0;
@@ -63,18 +64,6 @@ function countFlaggedFields(fields) {
   }
   return count;
 }
-
-canvas.addEventListener('click', (event) => {
-  let x = Math.floor(event.offsetX / imgSize);
-  let y = Math.floor(event.offsetY / imgSize);
-  if (isFirstClick) {
-    isFirstClick = false;
-    placeMines(map, mineCount, x, y);
-    calculateFieldValues(map);
-    startTimer();
-  }
-  onLeftClick(x, y);
-});
 
 function startGame() {
   isGameOver = false;
@@ -317,4 +306,28 @@ function drawMap() {
 
 function drawImage(image, x, y) {
   c.drawImage(image, x, y, imgSize, imgSize);
+}
+
+function canvasLeftClicked(event) {
+  let x = Math.floor(event.offsetX / imgSize);
+  let y = Math.floor(event.offsetY / imgSize);
+  if (isFirstClick) {
+    isFirstClick = false;
+    placeMines(map, mineCount, x, y);
+    calculateFieldValues(map);
+    startTimer();
+  }
+  onLeftClick(x, y);
+}
+
+function canvasRightClicked(event) {
+  event.preventDefault();
+  let x = Math.floor(event.offsetX / imgSize);
+  let y = Math.floor(event.offsetY / imgSize);
+  onRightClick(x, y);
+}
+
+function actionButtonClicked() {
+  actionButton.style.boxShadow = clickedButtonShadow;
+  setTimeout(restartGame, 100);
 }
