@@ -20,11 +20,21 @@ body {
   background-position-y: 18vh;
 }
 
+#minesweeperCanvas {
+  width: min(75vw, 75vh);
+}
+
 #control-panel {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 2vh 0;
+  width: min(75vw, 75vh);
+  height: min(8vh, 8vw);
+}
+
+#control-panel img {
+  height: 100%;
 }
 
 .button {
@@ -46,16 +56,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .number-overlay {
   position: absolute;
   text-align: center;
   width: 100%;
-  font-size: 48pt;
+  font-size: min(6vh, 6vw);
   font-weight: bold;
-  padding-left: 10pt;
-  letter-spacing: 20pt;
+  padding-left: min(2.5vh, 2.5vw);
+  letter-spacing: min(4vh, 4vw);
   color: rgba(0, 0, 0, 0.75);
   text-shadow: 1px 1px rgba(255, 255, 255, 0.75), -1px -1px #444;
 }

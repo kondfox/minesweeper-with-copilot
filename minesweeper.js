@@ -1,8 +1,10 @@
 const canvas = document.querySelector('#minesweeperCanvas');
 const c = canvas.getContext('2d');
-const imgSize = 50;
-const columns = Math.floor(canvas.width / imgSize);
-const rows = Math.floor(canvas.height / imgSize);
+const columns = 16;
+const rows = 12;
+const imgSize = canvas.clientWidth / columns;
+canvas.width = columns * imgSize;
+canvas.height = rows * imgSize;
 const mineCount = 30;
 const images = {
   hidden: document.getElementById('hidden'),
