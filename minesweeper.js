@@ -22,7 +22,7 @@ let exploredMap;
 let flaggedMap;
 let explodedBomb;
 
-window.onload = () => {
+window.onload = (event) => {
   canvas = document.querySelector('#minesweeperCanvas');
   c = canvas.getContext('2d');
   imgSize = canvas.clientWidth / columns;
