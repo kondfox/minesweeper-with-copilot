@@ -23,6 +23,25 @@ let flaggedMap;
 let explodedBomb;
 
 window.onload = (event) => {
+  init();
+  startGame();
+}
+
+failChecker();
+
+function failChecker() {
+  setTimeout(() => {
+    if (canvas.height === 0) {
+      console.log("Failed to load canvas, retrying...");
+      init();
+      startGame();
+    } else {
+      console.log("Canvas loaded successfully.");
+    }
+  }, 2000);
+}
+
+function init() {
   canvas = document.querySelector('#minesweeperCanvas');
   c = canvas.getContext('2d');
   imgSize = canvas.clientWidth / columns;
@@ -51,7 +70,6 @@ window.onload = (event) => {
   canvas.addEventListener('click', canvasLeftClicked);
   canvas.addEventListener('contextmenu', canvasRightClicked);
   actionButton.addEventListener('click', actionButtonClicked);
-  startGame();
 }
 
 function countFlaggedFields(fields) {
